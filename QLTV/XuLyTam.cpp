@@ -1,14 +1,11 @@
 #include "XuLyTam.h"
 
-void initList_TEMPLIST(LIST_TEMPLIST &l)
-{
+void taoTempL(ListTL &l) {
 	l.pHead = l.pTail = NULL;
-
 }
 
-NODE_TEMPLIST* GetNode_TEMPLIST(int index, int MADG)
-{
-	NODE_TEMPLIST *p = new NODE_TEMPLIST;
+NodeTL* GetNodeTempL(int index, int MADG) {
+	NodeTL *p = new NodeTL;
 	if (p == NULL) {
 		return NULL;
 	}
@@ -18,32 +15,28 @@ NODE_TEMPLIST* GetNode_TEMPLIST(int index, int MADG)
 	return (p);
 }
 
-void AddTailList_TEMPLIST(LIST_TEMPLIST &l, int index, int MADG)
-{
+void themCuoiListTL(ListTL &l, int index, int MADG) {
 	// tao Node
-	NODE_TEMPLIST *p = GetNode_TEMPLIST(index, MADG);
+	NodeTL *p = GetNodeTempL(index, MADG);
 	if (l.pHead == NULL) {
 		l.pHead = l.pTail = p;
 	}
-	else
-	{
+	else {
 		l.pTail->pNext = p;
 		l.pTail = p;
+
 	}
 }
 
-NODE_TEMPLIST * Middle(NODE_TEMPLIST * start, NODE_TEMPLIST * last)
-{
+NodeTL * getMid(NodeTL *start, NodeTL *last) {
 	if (start == NULL)
 		return NULL;
-	NODE_TEMPLIST * slow = start;
-	NODE_TEMPLIST * fast = start->pNext;
+	NodeTL * slow = start;
+	NodeTL * fast = start->pNext;
 
-	while (fast != last)
-	{
+	while (fast != last) {
 		fast = fast->pNext;
-		if (fast != last)
-		{
+		if (fast != last) {
 			slow = slow->pNext;
 			fast = fast->pNext;
 		}
@@ -51,36 +44,26 @@ NODE_TEMPLIST * Middle(NODE_TEMPLIST * start, NODE_TEMPLIST * last)
 	return slow;
 }
 
-// ne su dung tim kiem tuyen tinh vi cai nao cung bigO(n)
-NODE_TEMPLIST * BinarySearch_TEMPLIST(LIST_TEMPLIST l, int index)
-{
-	NODE_TEMPLIST *start = l.pHead;
-	NODE_TEMPLIST *last = NULL;
-	do
-	{	//Find middle
-		NODE_TEMPLIST * mid = Middle(start, last);
-		// if middle is empty
+NodeTL * BSort_TempL(ListTL l, int index) {
+	NodeTL *start = l.pHead;
+	NodeTL *last = NULL;
+	do {	
+		NodeTL * mid = getMid(start, last);
 		if (mid == NULL)
 			return NULL;
-
-		// if value is present at middle
 		if (mid->tl.index == index)
 			return mid;
-		// if value is more than mid
 		else if (mid->tl.index < index)
 			start = mid->pNext;
-		// if value is less than mid
 		else
 			last = mid;
 	} while (last == NULL || last->pNext != start);
-	return NULL; // value not present;
+	return NULL; 
 }
 
-void ClearAll_TEMPLIST(LIST_TEMPLIST &l)
-{
-	NODE_TEMPLIST *p;
-	while (l.pHead != NULL)
-	{
+void xoaTempL(ListTL &l) {
+	NodeTL *p;
+	while (l.pHead != NULL) {
 		p = l.pHead;
 		l.pHead = l.pHead->pNext;
 		delete p;

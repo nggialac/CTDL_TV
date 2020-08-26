@@ -1,11 +1,11 @@
 #include "MuonTra.h"
 
-void initList_MT(ListMT &l) {
+void taoListMT(ListMT &l) {
 	l.headLMT = l.tailLMT = NULL;
 	l.n = 0;
 }
 
-bool ListMTIsEmpty(ListDMS l) {
+bool checkNullListMT(ListDMS l) {
 	return l.headLDMS == NULL;
 }
 
@@ -20,7 +20,7 @@ NodeMT* GetNode_MT(MT DATA) {
 	return (p);
 }
 
-void AddHeadList_MT(ListMT &l, MT data) {
+void themDauList_MT(ListMT &l, MT data) {
 	// tao Node
 	NodeMT *p = GetNode_MT(data);
 	if (l.headLMT == NULL) {
@@ -33,7 +33,7 @@ void AddHeadList_MT(ListMT &l, MT data) {
 	++l.n;
 }
 
-void AddTailList_MT(ListMT &l, MT data) {
+void themCuoiList_MT(ListMT &l, MT data) {
 	// tao Node
 	NodeMT *p = GetNode_MT(data);
 	if (l.headLMT == NULL) {
@@ -46,7 +46,7 @@ void AddTailList_MT(ListMT &l, MT data) {
 	++l.n;
 }
 
-void ClearAll_ListMT(ListMT &l) {
+void xoaListMT(ListMT &l) {
 	NodeMT * p;
 	while (l.headLMT != NULL) {
 		p = l.headLMT;
@@ -55,7 +55,7 @@ void ClearAll_ListMT(ListMT &l) {
 	}
 }
 
-bool SearchTenSach_MT(ListMT lMT, string tensach) {
+bool timTenSach_MT(ListMT lMT, string tensach) {
 	for (NodeMT * p = lMT.headLMT; p != NULL; p = p->rightNMT) {
 		if ((p->info.tenSach == tensach && p->info.trangThai == 0) || (p->info.tenSach == tensach && p->info.trangThai == 2)) {
 			return true;
@@ -83,7 +83,7 @@ int MatSach(ListMT lMT) {
 	return 0;
 }
 
-int SoNgayMuon_Max(ListMT lMT) {
+int soNgayMuonMax(ListMT lMT) {
 	int max = 0;
 	int nngay;
 	for (NodeMT * p = lMT.headLMT; p != NULL; p = p->rightNMT) {
@@ -97,27 +97,24 @@ int SoNgayMuon_Max(ListMT lMT) {
 	return max;
 }
 
-int SoNgayQuaHan(ListMT lMT) {
-	return (SoNgayMuon_Max(lMT) - 7);
+int soNgayQuaHan(ListMT lMT) {
+	return (soNgayMuonMax(lMT) - 7);
 }
 
 
-void Output_MT(NodeMT * p, int i) {
-	gotoxy(XDisplayMT[0] + 2, 21 + i);
+void xuat_MT(NodeMT * p, int i) {
+	gotoxy(x_MT[0] + 2, 21 + i);
 	cout << p->info.tenSach;
-	gotoxy(XDisplayMT[1] + 2, 21 + i);
+	gotoxy(x_MT[1] + 2, 21 + i);
 	cout << p->info.maSach;
+	xuatNgayThang(p->info.ngayMuon, x_MT[2] + 2, 21 + i);
+	xuatNgayThang(p->info.ngayTra, x_MT[3] + 3, 21 + i);
 
-	xuatNgayThang(p->info.ngayMuon, XDisplayMT[2] + 2, 21 + i);
-
-	xuatNgayThang(p->info.ngayTra, XDisplayMT[3] + 3, 21 + i);
-
-	gotoxy(XDisplayMT[4] + 9, 21 + i);
+	gotoxy(x_MT[4] + 9, 21 + i);
 	cout << khoangCachNgay(p->info.ngayMuon);
-	gotoxy(XDisplayMT[5] + 6, 21 + i);
+	gotoxy(x_MT[5] + 6, 21 + i);
 	cout << p->info.viTriSach;
-
-	gotoxy(XDisplayMT[6] + 2, 21 + i);
+	gotoxy(x_MT[6] + 2, 21 + i);
 	if (p->info.trangThai == 2)
 		cout << " Lam Mat Sach";
 	else if (khoangCachNgay(p->info.ngayMuon) > 7)
@@ -128,39 +125,39 @@ void Output_MT(NodeMT * p, int i) {
 		cout << " Da Tra";
 }
 
-void XoaDisplay_MT(int i) {
-	gotoxy(XDisplayMT[0] + 1, 21 + i);
-	cout << setw(XDisplayMT[1] - XDisplayMT[0] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[1] + 1, 21 + i);
-	cout << setw(XDisplayMT[2] - XDisplayMT[1] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[2] + 1, 21 + i);
-	cout << setw(XDisplayMT[3] - XDisplayMT[2] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[3] + 1, 21 + i);
-	cout << setw(XDisplayMT[4] - XDisplayMT[3] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[4] + 1, 21 + i);
-	cout << setw(XDisplayMT[5] - XDisplayMT[4] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[5] + 1, 21 + i);
-	cout << setw(XDisplayMT[6] - XDisplayMT[5] - 1) << setfill(' ') << " ";
-	gotoxy(XDisplayMT[6] + 1, 21 + i);
-	cout << setw(XDisplayMT[7] - XDisplayMT[6] - 1) << setfill(' ') << " ";
+void xoaManHinh_MT(int i) {
+	gotoxy(x_MT[0] + 1, 21 + i);
+	cout << setw(x_MT[1] - x_MT[0] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[1] + 1, 21 + i);
+	cout << setw(x_MT[2] - x_MT[1] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[2] + 1, 21 + i);
+	cout << setw(x_MT[3] - x_MT[2] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[3] + 1, 21 + i);
+	cout << setw(x_MT[4] - x_MT[3] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[4] + 1, 21 + i);
+	cout << setw(x_MT[5] - x_MT[4] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[5] + 1, 21 + i);
+	cout << setw(x_MT[6] - x_MT[5] - 1) << setfill(' ') << " ";
+	gotoxy(x_MT[6] + 1, 21 + i);
+	cout << setw(x_MT[7] - x_MT[6] - 1) << setfill(' ') << " ";
 }
 
-void OutputList_MT(ListMT lMT) {
+void xuatListMT(ListMT lMT) {
 	int i = 0;
 	// xoa display dau sach
 	for (int j = 0; j < 3; j++) {
-		XoaDisplay_MT(j);
+		xoaManHinh_MT(j);
 	}
 	// thuc hien ouput
 	for (NodeMT * p = lMT.headLMT; p != NULL; p = p->rightNMT) {
 		if ( p->info.trangThai == 0 || p->info.trangThai == 2) {
-			Output_MT(p, i);
+			xuat_MT(p, i);
 			i++;
 		}
 	}
 }
 
-void EffectiveMenu_MT(ListMT lMT, int pos, int flag) {
+void hieuUngMenu_MT(ListMT lMT, int pos, int flag) {
 	int i = 0;
 	ShowCur(false);
 	// get so sach dang muon trong danh sach.
@@ -172,12 +169,12 @@ void EffectiveMenu_MT(ListMT lMT, int pos, int flag) {
 				if (i == pos) {
 					SetBGColor(WHITE);
 					SetColor(BLACK);
-					Output_MT(p, i);
+					xuat_MT(p, i);
 					normalBGColor();
 				}
 				if (i == (pos + n - 1) % n) {
 					SetColor(WHITE);
-					Output_MT(p, i);
+					xuat_MT(p, i);
 				}
 				i++;
 			}
@@ -189,12 +186,12 @@ void EffectiveMenu_MT(ListMT lMT, int pos, int flag) {
 				if (i == pos) {
 					SetBGColor(WHITE);
 					SetColor(BLACK);
-					Output_MT(p, i);
+					xuat_MT(p, i);
 					normalBGColor();
 				}
 				if (i == (pos + 1) % n) {
 					SetColor(WHITE);
-					Output_MT(p, i);
+					xuat_MT(p, i);
 				}
 				i++;
 			}
@@ -217,7 +214,7 @@ int chonItem_MT(ListMT lMT) {
 			if (i == 0) {
 				SetBGColor(WHITE);
 				SetColor(BLACK);
-				Output_MT(p, i);
+				xuat_MT(p, i);
 				normalBGColor();
 				i++;
 			}
@@ -239,7 +236,7 @@ int chonItem_MT(ListMT lMT) {
 					} else {
 						currpos = n - 1;  // vi tri hien tai bang so so sach muon.
 					}
-					EffectiveMenu_MT(lMT, currpos, 2);
+					hieuUngMenu_MT(lMT, currpos, 2);
 					break;
 				case KEY_DOWN:
 					if (currpos <  n - 1) {
@@ -247,7 +244,7 @@ int chonItem_MT(ListMT lMT) {
 					} else {
 						currpos = 0;
 					}
-					EffectiveMenu_MT(lMT, currpos, 1);
+					hieuUngMenu_MT(lMT, currpos, 1);
 					break;
 				case ENTER: 
 					return currpos;

@@ -1,15 +1,22 @@
 #include "mylib.h"
 
-void resizeConsole(int width, int height)
-{
+int toaDo = 0;
+int index = 0;
+int nDG = 0;
+bool done = false;
+string tensach = "";
+string masach = "";
+string vitrisach = "";
+char dongthongbao[] = "          ";
+
+void resizeConsole(int width, int height) {
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, width, height, TRUE);
 }
 
-int wherex(void)
-{
+int wherex(void) {
 	HANDLE hConsoleOutput;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
@@ -17,8 +24,7 @@ int wherex(void)
 	return screen_buffer_info.dwCursorPosition.X + 1;
 }
 
-int wherey(void)
-{
+int wherey(void) {
 	HANDLE hConsoleOutput;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
@@ -27,8 +33,7 @@ int wherey(void)
 }
 
 // HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-void gotoxy(int x, int y)
-{
+void gotoxy(int x, int y) {
 	COORD coord;
 	coord.X = x;
 	coord.Y = y;
@@ -38,15 +43,13 @@ void gotoxy(int x, int y)
 	);
 }
 
-void ShowCur(bool CursorVisibility)
-{
+void ShowCur(bool CursorVisibility) {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO cursor = { 1, CursorVisibility };
 	SetConsoleCursorInfo(handle, &cursor);
 }
 
-void SetColor(WORD color)
-{
+void SetColor(WORD color) {
 	HANDLE hConsoleOutput;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
@@ -56,12 +59,10 @@ void SetColor(WORD color)
 	color &= 0x000f;
 	wAttributes &= 0xfff0;
 	wAttributes |= color;
-
 	SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
 
-void SetBGColor(WORD color)
-{
+void SetBGColor(WORD color) {
 	HANDLE hConsoleOutput;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -73,52 +74,36 @@ void SetBGColor(WORD color)
 	color <<= 4;
 	wAttributes &= 0xff0f;
 	wAttributes |= color;
-
 	SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
 
-void cls(HANDLE hConsole)
-{
+void cls(HANDLE hConsole) {
 	COORD coordScreen = { 0, 0 };    // home for the cursor 
 	DWORD cCharsWritten;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	DWORD dwConSize;
 
-	// Get the number of character cells in the current buffer. 
-
 	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
 		return;
 	dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
 
-	// Fill the entire screen with blanks.
-
 	if (!FillConsoleOutputCharacter(hConsole, (TCHAR) ' ',
 		dwConSize, coordScreen, &cCharsWritten))
 		return;
-
-	// Get the current text attribute.
 	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
 		return;
-
 	// Set the buffer's attributes accordingly.
 	if (!FillConsoleOutputAttribute(hConsole, csbi.wAttributes,
 		dwConSize, coordScreen, &cCharsWritten))
 		return;
-
 	// Put the cursor at its home coordinates.
 	SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
-void clrscr()
-{
+void clrscr() {
 	HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 	cls(hCon);
 }
-
-//bool GetKey(int key)
-//{
-//	return GetAsyncKeyState(key);
-//}
 
 void normalTextColor() {
 	SetColor(WHITE);
@@ -127,7 +112,7 @@ void normalTextColor() {
 void normalBGColor()
 {
 	SetColor(WHITE);
-	SetBGColor(AQUA);
+	SetBGColor(BLACK);
 }
 
 char getCursorChar()    /// Function which returns character on console's cursor position 

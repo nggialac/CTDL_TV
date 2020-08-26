@@ -34,7 +34,6 @@ void xuatNgayThang(NTN dt, int x, int y) {
 }
 
 void layNgayGioHT(NTN &d) {
-	//int ngay,thang,nam ;
 	tm today;
 	time_t ltime;
 	time(&ltime);
@@ -72,14 +71,3 @@ int soSanhNgay(NTN nt1, NTN nt2) {
 	return (tinhNgay(nt2) - tinhNgay(nt1));
 }
 
-//int main() {
-//	NTN d,d1;
-//	d1.nam = 2020;
-//	d1.ngay = 20;
-//	d1.thang = 1;
-////	LayNgayGioHT(d);
-////	xuatNgayThang(d,10,10);
-////	xuatNgayThang(d1,10,30);
-//	cout<<khoangCachNgay(d1);
-//	return 0;
-//}

@@ -5,6 +5,6 @@ int main()
 {
 	TreeTDG t;
 	List_DauSach lDS;
-	XuLyMainMenu(t, lDS);
+	xuLyMM(t, lDS);
 	return 0;
 }

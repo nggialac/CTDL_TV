@@ -13,7 +13,7 @@ void Introduce() {
 		while (!inFile.eof()) {
 			getline(inFile, a);
 			SetColor(LIGHT_AQUA); // Mau Load file
-			Sleep(50);
+			Sleep(25);
 			cout << a << endl;
 		}
 	} else { //Tra ve loi
@@ -27,7 +27,7 @@ void Introduce() {
 	// nhan enter de thoat vong lap
 	gotoxy(54, 35);
 	cout << "Press ENTER to continue! ";
-	SetBGColor(AQUA);
+	SetBGColor(BLACK);
 	cin.ignore();
 	return;
 }
@@ -52,7 +52,7 @@ void ManHinhChinh() {
 		while (!inFile.eof()) {
 			getline(inFile, text);
 			SetColor(11);
-			Sleep(50);
+			Sleep(25);
 			gotoxy(25, y++);
 			cout << text << endl;
 		}
@@ -66,7 +66,7 @@ void ManHinhChinh() {
 
 void Save_DS(List_DauSach listDS) {
 	fstream outFile;
-	outFile.open("DauSach.txt", ios::out);
+	outFile.open("DauSach1.txt", ios::out);
 	if (outFile.is_open()) {
 		outFile << listDS.n + 1 << endl;
 		for (int i = 0; i <= listDS.n; i++) {
@@ -76,6 +76,7 @@ void Save_DS(List_DauSach listDS) {
 			outFile << listDS.nodesDS[i] -> theLoai << endl;
 			outFile << listDS.nodesDS[i] -> soTrang << endl;
 			outFile << listDS.nodesDS[i] -> namXB << endl;
+			outFile << listDS.nodesDS[i]->soLanMuon << endl;
 			outFile << listDS.nodesDS[i]->pListDMS.n << endl;
 			for (Node_DMS * p = listDS.nodesDS[i] -> pListDMS.headLDMS; p != NULL; p = p -> nextNDMS) {
 				outFile << p -> info.maSach << endl;
@@ -92,7 +93,7 @@ void Save_DS(List_DauSach listDS) {
 void Load_DS(List_DauSach & listDS) {
 	fstream inFile;
 	dauSach info;
-	inFile.open("DauSach.txt", ios:: in );
+	inFile.open("DauSach1.txt", ios:: in );
 	pDauSach pDS;
 	DMSach dms;
 	int soDauSach, soSach;
@@ -110,6 +111,7 @@ void Load_DS(List_DauSach & listDS) {
 			getline(inFile, info.theLoai);
 			inFile >> info.soTrang;
 			inFile >> info.namXB;
+			inFile >> info.soLanMuon;
 			// load thong tin vao dau sach
 			*(pDS) = info;
 			/*pDS->tenSach = info.tenSach;
@@ -171,10 +173,10 @@ void OutFile_DG(TreeTDG t, fstream &file) {
 
 void Save_DG(TreeTDG t) {
 	fstream outFile;
-	outFile.open("DocGia.txt", ios::out);
+	outFile.open("DocGia1.txt", ios::out);
 	if (outFile.is_open()) {
 		// so doc gia..
-		outFile << countDG(t) << endl;
+		outFile << demDG(t) << endl;
 		OutFile_DG(t, outFile);
 	} else {
 		cout << "KET NOI VOI FILE DocGia THAT BAI! ";
@@ -184,13 +186,13 @@ void Save_DG(TreeTDG t) {
 
 void Load_DG(TreeTDG &t) {
 	// khoi tao cay doc gia
-	initTREE_DG(t);
+	khoiTaoCayDG(t);
 
 	fstream inFile;
 	NodeTDG* pDG = NULL;
 	TDG dg;
 	MT mt;
-	inFile.open("DocGia.txt", ios::in);
+	inFile.open("DocGia1.txt", ios::in);
 	int sodocgia, sosachmuontra;
 
 	if (inFile.is_open()) {
@@ -207,8 +209,8 @@ void Load_DG(TreeTDG &t) {
 			inFile >> dg.trangThaiThe;
 
 			// them data vao cay doc gia.
-			InsertDTtoTree(t, dg);
-			pDG = Find_DG(t, dg.maThe);
+			chenTree(t, dg);
+			pDG = tim_DG(t, dg.maThe);
 
 
 			inFile >> sosachmuontra;
@@ -230,7 +232,7 @@ void Load_DG(TreeTDG &t) {
 				getline(inFile, mt.viTriSach);
 
 				// cap nhat du lieu vao
-				AddHeadList_MT(pDG->listMT, mt);
+				themDauList_MT(pDG->listMT, mt);
 			}
 		}
 	} else {
@@ -239,12 +241,12 @@ void Load_DG(TreeTDG &t) {
 	inFile.close();
 }
 
-int Menu_MuonSach(List_DauSach &lDS, NodeTDG* nDG) {
+int Menu_MS(List_DauSach &lDS, NodeTDG* nDG) {
 	int choose1, choose2;
 	bool check;
-	char thongbao1[] = "            Sach da co doc gia muon, vui long chon cuon sach khac!";
-	char thongbao2[] = "              Sach da duoc thanh ly, vui long chon cuon sach khac!";
-	char thongbao3[] = "                 Doc gia da muon sach thuoc dau Sach nay!     ";
+	char thongbao1[] = "  Sach da co doc gia muon !";
+	char thongbao2[] = "  Sach da duoc thanh ly !";
+	char thongbao3[] = "  Doc gia da muon sach thuoc Dau Sach nay!";
 	normalBGColor();
 
 	// nDs : so luong dau sach.
@@ -258,13 +260,11 @@ int Menu_MuonSach(List_DauSach &lDS, NodeTDG* nDG) {
 label:
 	do {
 		// hien thi bang chua thong tin dau sach
-		DisplayDS(keyDisplayDS, 6, xDisplayDS);
-
-		OutputDS_PerPage(lDS, tttrang);
-
+		XoaMotVung(1, 1, 65, 80);
+		ve_DS(keyDisplayDS, 6, x_DS);
+		xuat_DStheoPage(lDS, tttrang);
 		gotoxy(23, 1);
-		SetBGColor(GREEN);
-		cout << "CHON 1 DAU SACH DE MUON ";
+		cout << "Chon dau sach de muon ! ";
 		normalBGColor();
 		// chon dau sach muon nhap sach vao
 		choose1 = ChooseItems(lDS, tttrang, tongtrang);
@@ -272,23 +272,23 @@ label:
 		if (choose1 == -1) {
 			return -1;
 		} else if (choose1 > lDS.n) {
-			gotoxy(2, yDisplay + 3 + choose1 % NUMBER_LINES);
+			gotoxy(2, y_Ve + 3 + choose1 % NUMBER_LINES);
 			cout << setw(27) << setfill(' ') << ' ';
 			continue;
 		}
 		pDS = lDS.nodesDS[choose1];
 		// lay ten sach.
 		tensach = pDS->tenSach;
-		check = SearchTenSach_MT(nDG->listMT, tensach);
+		check = timTenSach_MT(nDG->listMT, tensach);
 		// check cac truong hop
 		if (check == true) {
-			chuChay(thongbao3, 90, 24);
+			gotoxy(90, 24);
+			cout << thongbao3;
 			_getch();
 			gotoxy(90, 24);
 			cout << "                                                       ";
 		} else {
 			XoaMotVung(1, 1, 35, 79);
-			// thoat vong lap
 			temp = 2;
 		}
 	} while (temp == 1);
@@ -300,12 +300,11 @@ label1:
 	tongtrang = (pDS->pListDMS.n / NUMBER_LINES) + 1;
 
 	gotoxy(15, 1);
-	SetBGColor(GREEN);
-	cout << "CHON 1 CUON SACH DE MUON";
+	cout << "Chon Sach De Muon !";
 	normalBGColor();
 	do {
 		// hien thi bang chua thong tin danh muc sach
-		DisplayDMS(keyDisplayDMS, 3, xDisplayDMS);
+		ve_DMS(keyDisplayDMS, 3, x_DMS);
 		OutputDMS_PerPage(pDS, tttrang);
 		choose2 = ChooseItems1(pDS, tttrang, tongtrang);
 		if (choose2 == -1) {
@@ -315,17 +314,15 @@ label1:
 			cout << "                                       ";
 			goto label;
 		} else if (choose2 + 1 > pDS->pListDMS.n) {
-
-			// xem thử chỗ đầu sách có quay lại ngay cái trang hầu nảy luôn kko
-			gotoxy(2, yDisplay + 3 + choose2 % NUMBER_LINES);
+			gotoxy(2, y_Ve + 3 + choose2 % NUMBER_LINES);
 			cout << setw(12) << setfill(' ') << ' ';
 			continue;
 		} else {
 			Node_DMS* dms = Search_DMS2(pDS->pListDMS.headLDMS, choose2);
-
-			// trang thai sach = 1, sach da co nguoi muon, nen se khong muon sach nay duoc.
+			// trang thai sach = 1 se khong muon sach nay.
 			if (dms->info.trangThaiSach == 1) {
-				chuChay(thongbao1, 88, 24);
+				gotoxy(88, 24);
+				cout << thongbao1;
 				_getch();
 				gotoxy(88, 24);
 				cout << "                                                                     ";
@@ -333,7 +330,9 @@ label1:
 			}
 			// trang thai sach = 2 , sach da thanh ly, nen se khong muon sach duoc
 			else if (dms->info.trangThaiSach == 2) {
-				chuChay(thongbao2, 88, 24);
+				//chuChay(thongbao2, 88, 24);
+				gotoxy(88, 24);
+				cout << thongbao1;
 				_getch();
 				gotoxy(88, 24);
 				cout << "                                                                      ";
@@ -345,6 +344,7 @@ label1:
 				masach = dms->info.maSach;
 				vitrisach = dms->info.viTri;
 				dms->info.trangThaiSach = 1;
+				pDS->soLanMuon += 1;
 			}
 			// xoa dong tieu de di.
 			gotoxy(15, 1);
@@ -355,33 +355,78 @@ label1:
 	return 1;
 }
 
-void XuLyMuonSach(TreeTDG &t, List_DauSach &lDS) {
+void Output_ListDG_MT(TreeTDG t, hoTen *arr) {
+	ShowCur(false);
+	nDG = demDG(t);
+	// thu tu trang
+	int tttrang, tongtrang;
+	tttrang = 1;
+	tongtrang = (nDG / NUMBER_LINES) + 1;
+	xuat_DG_Page1(t, arr, tttrang);
+	int kb_hit;
+	do {
+		if (_kbhit()) {
+			kb_hit = _getch();
+			if (kb_hit == 224 || kb_hit == 0)
+				kb_hit = _getch();
+			switch (kb_hit) {
+			case PAGE_UP:
+				(tttrang > 1) ? tttrang-- : tttrang = tongtrang;
+				xuat_DG_Page1(t, arr, tttrang);
+				break;
+			case PAGE_DOWN:
+				(tttrang < tongtrang) ? tttrang++ : tttrang = 1;
+				xuat_DG_Page1(t, arr, tttrang);
+				break;
+			case ENTER:
+				return;
+			}
+		}
+		SetColor(WHITE);
+		gotoxy(3, 35);
+		cout << "HotKey: PgUp, PgDn, ENTER (tiep tuc) ";
+		gotoxy(62, 1);
+		cout << "Page: " << tttrang << "/" << tongtrang;
+	} while (true);
+}
+
+void xuLyMS(TreeTDG &t, List_DauSach &lDS) {
 	clrscr();
 	system("color 0");
 	int msdg =  0;
 	int check1, check2, check3 = 0;
 	MT mt;
 	NodeTDG* temp;
-	char thongbao1[] = "             DOC GIA chi duoc muon toi da 3 cuon !";
-	char thongbao2[] = "           DOC GIA da bi khoa the!";
-	char thongbao3[] = "         DOC GIA da giu sach qua han 7 ngay!";
-	char thongbao4[] = "         DOC GIA da lam mat sach! ";
+	char thongbao1[] = "           Doc Gia chi duoc muon toi da 3 cuon !";
+	char thongbao2[] = "           Doc Gia da bi khoa the!";
+	char thongbao3[] = "           Doc Gia da giu sach qua han 7 ngay!";
+	char thongbao4[] = "           Doc Gia da lam mat sach! ";
 
 label:
-	VeHinhBangNhap(83, 3, 50, "        HAY NHAP VAO MA DOC GIA DE MUON SACH");
+
+	index = 0;
+	hoTen* ArrTenHo = new hoTen[nDG];
+	tao_ArrTenHo(t, ArrTenHo);
+	ve_DG(keyDisplayDG, 5, x_DG);
+	QSort_TenHo(ArrTenHo, 0, nDG - 1);
+	Output_ListDG_MT(t, ArrTenHo);
+	//// xoa vung nho
+	delete[] ArrTenHo;
+
+	VeHinhBangNhap(83, 3, 50, "            Nhap ma doc gia de muon !");
 	gotoxy(103, 5);
 	check1 = NhapMaDocGia(msdg);
 
-	// kiem tra ca truong hop
+	// kiem tra ca truong hop  
 	if (check1 == -1) {
 		gotoxy(91, 10);
-		cout << "BAN VUA HUY TAC VU MUON SACH !";
+		cout << "Huy muon sach !";
 		_getch();
 	} else if (check1 == 1) {
-		temp = Find_DG(t, msdg);
+		temp = tim_DG(t, msdg);
 		if (temp == NULL) {
 			gotoxy(82, 10);
-			cout << "BAN VUA NHAP MA DOC GIA KHONG CO TRONG THU VIEN !";
+			cout << "Khong tim thay ma doc gia !";
 			_getch();
 			gotoxy(82, 10);
 			cout << "                                                   ";
@@ -390,16 +435,16 @@ label:
 			// in thong tin doc gia.
 label1:
 			gotoxy(95, 9);
-			cout << "THONG TIN DOC GIA";
+			cout << "Thong tin Doc Gia";
 			gotoxy(93, 11);
 			cout << "- Ho va ten: " << temp->info.ho << " "<< temp->info.ten;
 
 			gotoxy(93, 12);
 			cout << "- Trang thai the : ";
-			(temp->info.trangThaiThe == 0) ? cout << "KHOA" : cout << "HOAT DONG";
+			(temp->info.trangThaiThe == 0) ? cout << "Khoa" : cout << "Hoat dong";
 			gotoxy(93, 13);
 			cout << "- Phai: ";
-			(temp->info.phai == 0) ? cout << "NAM" : cout << "NU";
+			(temp->info.phai == 0) ? cout << "Nam" : cout << "Nu";
 			gotoxy(93, 14);
 			cout << "- So sach  da muon : " << temp->listMT.n;
 			gotoxy(93, 15);
@@ -407,7 +452,7 @@ label1:
 
 			// in danh sach cac sach dang muon trong list MUONTRA cua doc gia.
 			gotoxy(95, 17);
-			cout << "     =SACH DANG MUON=      ";
+			cout << "     =Sach Dang Muon=      ";
 			gotoxy(85, 18);
 			cout << "     Ten Sach                           ";
 			gotoxy(118, 18);
@@ -424,8 +469,7 @@ label1:
 					xuatNgayThang(p->info.ngayMuon, 118, 20 + i);
 					i++;
 					if (i == 3) {
-						//chuChay(thongbao1, 90, 24);
-						gotoxy(90, 24);
+						gotoxy(60, 24);
 						cout << thongbao1;
 						_getch();
 						return;
@@ -434,37 +478,33 @@ label1:
 			}
 			// xu ly truong hop khong cho muon sach khi trang thai the da bi khoa.
 			if (temp->info.trangThaiThe == 0) {
-				//chuChay(thongbao2, 90, 24);
-				gotoxy(90, 24);
+				gotoxy(60, 24);
 				cout << thongbao2;
 				_getch();
 				return;
 			}
 			// xu ly truong hop khong cho muon sach khi doc gia lam mat sach.
 			if (MatSach(temp->listMT)) {
-				//chuChay(thongbao4, 90, 24);
-				gotoxy(90, 24);
+				gotoxy(60, 24);
 				cout << thongbao4;
 				_getch();
 				return;
 			}
 			// xu ly truong hop muon sach qua han 7 ngay.
-			if (SoNgayMuon_Max(temp->listMT) > 7) {
-				//chuChay(thongbao3, 90, 24);
-				gotoxy(90, 24);
+			if (soNgayMuonMax(temp->listMT) > 7) {
+				gotoxy(60, 24);
 				cout << thongbao3;
 				_getch();
 				return;
 			}
 			// in ra dong thong bao
-			//chuChay(dongthongbao, 90, 35);
-			gotoxy(90, 35);
+			gotoxy(60, 35);
 			cout << dongthongbao;
 			_getch();
 			gotoxy(88, 35);
 			cout << "                                                  ";
 			// xu ly thao tac muon tra.
-			check2 = Menu_MuonSach(lDS, temp);
+			check2 = Menu_MS(lDS, temp);
 			// check cac truong hop
 			if (check2 == -1) {
 				return;
@@ -485,7 +525,7 @@ label1:
 					if (check3 == -1) {
 						return;
 					} else if (check3 == 2) {
-						AddHeadList_MT(temp->listMT, mt);
+						themDauList_MT(temp->listMT, mt);
 						goto label1;
 					}
 				} while (check3 );
@@ -494,7 +534,7 @@ label1:
 	}
 }
 
-void XuLyTraSach(TreeTDG &t, List_DauSach &lDS) {
+void xuLyTS(TreeTDG &t, List_DauSach &lDS) {
 	clrscr();
 	system("color 0");
 	int msdg = 0;
@@ -516,7 +556,7 @@ label:
 		cout << "BAN VUA HUY TAC VU TRA SACH !!!";
 		_getch();
 	} else if (check == 1) {
-		temp = Find_DG(t, msdg);
+		temp = tim_DG(t, msdg);
 		if (temp == NULL) {
 			gotoxy(40, 10);
 			cout << "MA DOC GIA KHONG TON TAI !!!";
@@ -546,8 +586,8 @@ label1:
 			cout << " So sach chua tra : " << SoSachDangMuon(temp->listMT);
 			gotoxy(37, 17);
 			cout << "               CAC SACH DANG MUON                     ";
-			DisplayMT(keyDisplayMT, 7, XDisplayMT);
-			OutputList_MT(temp->listMT);
+			ve_MT(keyDisplayMT, 7, x_MT);
+			xuatListMT(temp->listMT);
 			do {
 				while (_kbhit()) {
 					int kb_hit = _getch();
@@ -572,7 +612,6 @@ label1:
 											gotoxy(40, 28);
 											cout << "Nhap vao ngay tra. Nhan F10 de luu, ESC de huy !";
 											check1 = InputNgayThang(ngaytra, 55, 30);
-
 											// check cac truong hop
 											if (check1 == 2) {
 												if (soSanhNgay(pMT->info.ngayMuon, ngaytra) < 0) {
@@ -581,14 +620,10 @@ label1:
 													// thay doi trang thai sang da tra sach.
 													pMT->info.trangThai = 1;
 													pMT->info.ngayTra = ngaytra;
-
 													// tim kiem dau sach ma doc gia da muon
 													pDauSach pDS = layDauSach_Ten(lDS, pMT->info.tenSach);
-
-
 													// tim kiem sach co ma dau sach ma doc gia da muon.
 													Node_DMS* pDMS = Search_DMS1(pDS, pMT->info.maSach);
-
 													// thay doi trang thai sach tu da co nguoi muon sang chua co nguoi muon
 													pDMS->info.trangThaiSach = 0;
 													goto label1;
@@ -633,62 +668,60 @@ label1:
 	}
 }
 
-void XuLyMainMenu(TreeTDG &t, List_DauSach &lDS) {
+void xuLyMM(TreeTDG &t, List_DauSach &lDS) {
 	int result;
-
 	// set console window.
 	SetConsoleTitle(_T("QUAN LY THU VIEN"));
 	resizeConsole(GWIDTH, GHEIGHT);
-
 	// load data from File.
 	Load_DG(t);
 	Load_DS(lDS);
-
-	// hieu ung introduce.
 	Introduce();
 	clrscr();
-
 	// vong lap vo han de xu ly.
 	while (true) {
 		ManHinhChinh();
-		int type = ChooseMainMenu(5);
+		int type = chonMainMenu(5);
 		gotoxy(55, 32);
 		cout << " ESC: Ve Menu Chinh";
-
 		switch (type) {
 			case 0:
-				SubMainMenu1(keySubMainMenu1, 3);
-				result = ChooseSubMenu(keySubMainMenu1, xSubMainMenus1, ySubMainMenus1, 3);
-				if (result == 0) {
-					Menu_DocGia(t);
-				} else if (result == 1) {
-					InDocGia(t);
-				} else if (result == 2) {
-					DanhSachQuaHan(t);
-				}
-				break;
-
-			case 1:
-				SubMainMenu2(keySubMainMenu2, 3);
-				result = ChooseSubMenu(keySubMainMenu2, xSubMainMenus2, ySubMainMenus2, 3);
+				SMainMenu1(keySubMainMenu1, 3);
+				result = ChonSMenu(keySubMainMenu1, x_SMainMenus1, y_SMainMenus1, 3);
 				if (result == 0) {
 					Menu_DauSach(lDS);
-				} else if (result == 1) {
-					Output_ListDStheoTT(lDS);
-				} else if (result == 2) {
+				}
+				else if (result == 1) {
+					xuat_ListDStheoTT(lDS);
+				}
+				else if (result == 2) {
 					Menu_DMS(lDS);
 				}
 				break;
 
-			case 2:
-				SubMainMenu3(keySubMainMenu3, 3);
-				result = ChooseSubMenu(keySubMainMenu3, xSubMainMenus3, ySubMainMenus3, 3);
+			case 1:
+				SMainMenu2(keySubMainMenu2, 3);
+				result = ChonSMenu(keySubMainMenu2, x_SMainMenus2, y_SMainMenus2, 3);
 				if (result == 0) {
-					XuLyTraSach(t, lDS);
+					Menu_DocGia(t);
+				}
+				else if (result == 1) {
+					InDG(t);
+				}
+				else if (result == 2) {
+					DanhSachQuaHan(t);
+				}
+				break;
+
+			case 2:
+				SMainMenu3(keySubMainMenu3, 3);
+				result = ChonSMenu(keySubMainMenu3, x_SMainMenus3, y_SMainMenus3, 3);
+				if (result == 0) {
+					xuLyTS(t, lDS);
 				} else if (result == 1) {
 					Top10Sach(lDS);
 				} else if (result == 2) {
-					XuLyMuonSach(t, lDS);
+					xuLyMS(t, lDS);
 				}
 				break;
 

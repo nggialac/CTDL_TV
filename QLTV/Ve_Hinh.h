@@ -45,42 +45,33 @@ extern string keyGuide2[7];
 extern string keyGuide3[4];
 
 // Cac diem toa do x trong bang hien thi doc gia
-extern int xDisplayDG[6];
+extern int x_DG[6];
 
 //Cac diem toa do x trong bang hien thi dau sach
-extern int xDisplayDS[7];
+extern int x_DS[7];
 
 //Cac diem toa do x trong bang hien thi danh muc sach
-extern int xDisplayDMS[4];
+extern int x_DMS[4];
 
 //cac diem toa do x trong bang hien thi danh sach muon tra.
-extern int XDisplayMT[8];
+extern int x_MT[8];
 
 // cac diem toa do x trong bang hien thi Top10
-extern int xDisplayTop10[4];
+extern int x_Top10[4];
 
 // Cac diem toa do x trong main menu
-extern int xMainMenus[5];
+extern int x_MainMenus[5];
 
 // Cac diem toa do y trong  menu con
-extern int ySubMainMenus1[3];
-extern int ySubMainMenus2[3];
-extern int ySubMainMenus3[3];
+extern int y_SMainMenus1[3];
+extern int y_SMainMenus2[3];
+extern int y_SMainMenus3[3];
 
 // tao o hinh chu nhat thay doi theo chieu dai text truyen vao
-void CreateBox(int x, int y, string text, int length);
-
-// in ra dong chu chay vao console
-void chuChay(char dChu[], int x, int y);
+void taoBox(int x, int y, string text, int length);
 
 // ve hinh bang nhap.
 void VeHinhBangNhap(int x, int y, int dorong, string str);
-
-//ve cay loading
-void CayLoading(int Color);
-
-//ve khung vien
-void VeKhungMenu();
 
 // xoa mot dong
 void XoaMotDong(int width);
@@ -98,41 +89,41 @@ void HighLight1(string key, int index, int x, int y[], int newColor, int oldColo
 void MainMenu(string key[], int nKey);
 
 // ve cac Menu con
-void SubMainMenu1(string key[], int nKey);
+void SMainMenu1(string key[], int nKey);
 
-void SubMainMenu2(string key[], int nKey);
+void SMainMenu2(string key[], int nKey);
 
-void SubMainMenu3(string key[], int nKey);
+void SMainMenu3(string key[], int nKey);
 
-void EffectiveMenu(int pos, int flag);
+void hieuUngMenu(int pos, int flag);
 
-void EffectiveSubMenu(string key[], int xSubMenu, int ykey[], int nkey, int pos, int flag);
+void hieuUngSMenu(string key[], int xSubMenu, int ykey[], int nkey, int pos, int flag);
 
 //hieu ung chon cac muc trong MainMenu
-int ChooseMainMenu(int nKey);
+int chonMainMenu(int nKey);
 
 //hieu ung chon cac muc trong SubMenu
-int ChooseSubMenu(string key[], int xSubMenu, int ykey[], int nkey);
+int ChonSMenu(string key[], int xSubMenu, int ykey[], int nkey);
 
 // ham hien thi bang thong tin dau sach
-void DisplayDS(string key[], int nKey, int xDisplay[]);
+void ve_DS(string key[], int nKey, int xDisplay[]);
 
 // ham hien thi bang thong tin doc gia
-void DisplayDG(string key[], int nKey, int xDisplay[]);
+void ve_DG(string key[], int nKey, int xDisplay[]);
 
 //   ham hien thi bang thong tin danh muc sach
-void DisplayDMS(string key[], int nKey, int xDisplay[]);
+void ve_DMS(string key[], int nKey, int xDisplay[]);
 
 //  ham hien thi bang thong tin danh sach muon tra.
-void DisplayMT(string key[], int nKey, int xDisplay[]);
+void ve_MT(string key[], int nKey, int xDisplay[]);
 
 
 // ham hien thi bang thong tin Top10
-void DisplayTop10(string key[], int nKey, int xDisplay[], int ndoc);
+void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc);
 
 // ve bang nhap thong tin
-void BangNhap(int x, int y, int nngang, string key[], int nkey);
+void ve_BangNhap(int x, int y, int nngang, string key[], int nkey);
 
 // ve bang huong dan Guides
-void BangGuides(int x, int y, int nngang, string key[], int nkey);
+void ve_BangChiBao(int x, int y, int nngang, string key[], int nkey);
 

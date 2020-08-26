@@ -1,13 +1,8 @@
 #pragma once
-
 #include <time.h>
 #include <iostream>
 #include "mylib.h"
-
 #include "Struct.h"
-
-using std::cout;
-
 using namespace std;
 
 #define NAM_MIN 1900

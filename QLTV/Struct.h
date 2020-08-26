@@ -50,7 +50,7 @@ struct DauSach {
 	int namXB;
 	int soTrang;
 	ListDMS pListDMS;
-	int soLanMuon;
+	int soLanMuon = 0;
 };
 typedef struct DauSach dauSach;
 typedef struct DauSach *pDauSach;
@@ -83,12 +83,11 @@ struct ListMuonTra {
 typedef struct ListMuonTra ListMT;
 //**************************************************
 struct TheDocGia {
-	int maThe; //int maThe;
+	int maThe;
 	string ho;
 	string ten;
 	bool phai;
 	int trangThaiThe;
-
 };
 typedef struct TheDocGia TDG;
 struct NodeTheDocGia {
@@ -99,13 +98,9 @@ struct NodeTheDocGia {
 typedef struct NodeTheDocGia NodeTDG;
 typedef struct NodeTheDocGia *TreeTDG;
 //**************************************************
-struct Top {
-	string tenSach;
-	int soSachMuon;
-};
 
 struct QuaHan {
-	uint MADG;
+	int MADG;
 	int songayquahan;
 };
 

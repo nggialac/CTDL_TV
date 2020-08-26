@@ -93,7 +93,7 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Temp.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,5 +101,11 @@
     <Text Include="DauSach.txt" />
     <Text Include="introduce.txt" />
     <Text Include="QuanLyThuVien.txt" />
+    <Text Include="DauSach1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="DocGia1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
