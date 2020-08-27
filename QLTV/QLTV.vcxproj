@@ -127,14 +127,13 @@
     <ClInclude Include="Date.h" />
     <ClInclude Include="DauSach.h" />
     <ClInclude Include="DocGia.h" />
-    <ClInclude Include="GlobalVariable.h" />
-    <ClInclude Include="Marcro.h" />
+    <ClInclude Include="DefineVar.h" />
     <ClInclude Include="MuonTra.h" />
     <ClInclude Include="mylib.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Ve_Hinh.h" />
     <ClInclude Include="XuLyInput.h" />
-    <ClInclude Include="XuLySaveLoad.h" />
+    <ClInclude Include="XuLySL_MT.h" />
     <ClInclude Include="XuLyTam.h" />
   </ItemGroup>
   <ItemGroup>
@@ -142,23 +141,19 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="DauSach.cpp" />
     <ClCompile Include="DocGia.cpp" />
-    <ClCompile Include="GlobalVariable.cpp" />
     <ClCompile Include="MuonTra.cpp" />
     <ClCompile Include="mylib.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Temp.cpp" />
     <ClCompile Include="Ve_Hinh.cpp" />
     <ClCompile Include="XuLyInput.cpp" />
-    <ClCompile Include="XuLySaveLoad.cpp" />
+    <ClCompile Include="XuLySL_MT.cpp" />
     <ClCompile Include="XuLyTam.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DauSach.txt" />
     <Text Include="DauSach1.txt" />
-    <Text Include="DocGia.txt" />
     <Text Include="DocGia1.txt" />
-    <Text Include="introduce.txt" />
-    <Text Include="QuanLyThuVien.txt" />
+    <Text Include="Welcome.txt" />
+    <Text Include="TV.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

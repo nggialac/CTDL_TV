@@ -14,6 +14,7 @@ int SoSachDangMuon(ListMT lMT);
 int MatSach(ListMT lMT);
 int soNgayMuonMax(ListMT lMT);
 int soNgayQuaHan(ListMT lMT);
+//hien thi
 void xuat_MT(NodeMT * p, int i);
 void xoaManHinh_MT(int i);
 void xuatListMT(ListMT lMT);

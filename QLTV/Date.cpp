@@ -45,8 +45,8 @@ void layNgayGioHT(NTN &d) {
 }
 
 int layNamHT() {
-	tm today;
-	time_t ltime;
+	tm today;// struct tm
+	time_t ltime;//lay date he thong
 	time(&ltime);
 	//today = localtime( &ltime );
 	localtime_s(&today, &ltime);

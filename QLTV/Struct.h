@@ -98,7 +98,6 @@ struct NodeTheDocGia {
 typedef struct NodeTheDocGia NodeTDG;
 typedef struct NodeTheDocGia *TreeTDG;
 //**************************************************
-
 struct QuaHan {
 	int MADG;
 	int songayquahan;

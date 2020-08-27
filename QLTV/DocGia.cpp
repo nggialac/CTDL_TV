@@ -14,7 +14,7 @@ NodeTDG* GetNode_DG(TDG dg) {
 	if (p == NULL) {
 		return NULL;
 	}
-	// khoi tao danh muc sach trong node doc gia
+	// khoi tao DMS
 	taoListMT(p->listMT);
 	p->info = dg;
 	p->leftTDG = p->rightTDG = NULL;
@@ -22,7 +22,6 @@ NodeTDG* GetNode_DG(TDG dg) {
 }
 
 void chenTree(TreeTDG &t, TDG dg) {
-	/// tang doc gia len 1
 	if (t == NULL) {
 		t = GetNode_DG(dg);
 		++nDG;
@@ -36,13 +35,13 @@ void chenTree(TreeTDG &t, TDG dg) {
 }
 
 int demDG(TreeTDG tree) {
-	int c = 1;             // ban than node duoc dem la 1;
+	int nut = 1;    
 	if (tree == NULL)
 		return 0;
 	else {
-		c += demDG(tree->leftTDG);
-		c += demDG(tree->rightTDG);
-		return c;
+		nut += demDG(tree->leftTDG);
+		nut += demDG(tree->rightTDG);
+		return nut;
 	}
 }
 
@@ -64,9 +63,8 @@ bool Check_MADG(TreeTDG  t, int MADG) {
 int taoRandom() {
 	srand((int)time(0));
 	int x;
-	// bo ham rand() vao vong lap moi khong bi loi tang dan, hay giam dan.
 	for (int i = 0; i < 500; i++) {
-		x = rand();
+		x = rand(); // ran() trong vong for
 	}
 	return x;
 }
@@ -75,16 +73,16 @@ int randomMaDG(TreeTDG t) {
 	int temp;
 	do {
 		temp = taoRandom();
-	} while (Check_MADG(t, temp));  // check trung , neu trung thi random lai
+	} while (Check_MADG(t, temp)); //trung
 	return temp;
 }
 
-NodeTDG* timMin(TreeTDG t) {
+NodeTDG* layMin_NTDG(TreeTDG t) {
 	while (t->leftTDG != NULL) t = t->leftTDG;
 	return (t);
 }
 
-NodeTDG* tim_DG(TreeTDG t, int MADG) {
+NodeTDG* layDG_NTDG(TreeTDG t, int MADG) {
 	while (t != NULL && t->info.maThe != MADG) {
 		if (MADG < t->info.maThe) {
 			t = t->leftTDG;
@@ -102,14 +100,14 @@ bool checkDeleted_DG(TreeTDG &t, TDG dg) {
 			return checkDeleted_DG(t->rightTDG, dg);
 		else if (dg.maThe < t->info.maThe)
 			return checkDeleted_DG(t->leftTDG, dg);
-		else { // Wohoo... I found you, Get ready to be deleted
+		else { 
 			//case 1: No child
 			if (t->leftTDG == NULL && t->rightTDG == NULL) {
-				delete t; // dangling pointer
+				delete t; 
 				t = NULL;
 				nDG--;
 			}
-			else if (t->leftTDG == NULL) { // case 2: One child
+			else if (t->leftTDG == NULL) { // chi co 1 ben
 				NodeTDG* temp = t;
 				t = t->rightTDG;
 				delete temp;
@@ -120,11 +118,9 @@ bool checkDeleted_DG(TreeTDG &t, TDG dg) {
 				t = t->leftTDG;
 				delete temp;
 				nDG--;
-			}// Case 3: 2 children
-			else {
-				NodeTDG* temp = timMin(t->rightTDG);
-
-				// copy du lieu vao .
+			}
+			else {//2 ben
+				NodeTDG* temp = layMin_NTDG(t->rightTDG);
 				t->info = temp->info;
 				t->listMT = temp->listMT;
 				return checkDeleted_DG(t->rightTDG, temp->info);
@@ -153,7 +149,7 @@ void Xoa_DG_lineS() {
 	}
 }
 
-void Output_DG(NodeTDG* dg) {
+void xuat_DG(NodeTDG* dg) {
 	Xoa_DG_line(toaDo);
 	gotoxy(x_DG[0] + 3, y_Ve + 3 + toaDo);
 	cout << dg->info.maThe;
@@ -181,12 +177,12 @@ string layHoTen(TDG dg) {
 	return token;
 }
 
-void tao_ArrMADG(TreeTDG t, int* arr) {
+void tao_ArrMaThe(TreeTDG t, int* arr) {
 	if (t == NULL)
 		return;
-	tao_ArrMADG(t->leftTDG, arr); // visit left subtree
+	tao_ArrMaThe(t->leftTDG, arr); // visit left subtree
 	arr[index++] = t->info.maThe;
-	tao_ArrMADG(t->rightTDG, arr);// visit right subtree
+	tao_ArrMaThe(t->rightTDG, arr);// visit right subtree
 }
 
 void tao_ArrTenHo(TreeTDG t, hoTen* arr) {
@@ -236,25 +232,20 @@ void capNhat_DG(TreeTDG &t, TDG &dg, bool isEdited) {
 	// hien con tro nhap
 	ShowCur(true);
 	normalBGColor();
-
 	// cac flag dieu khien qua trinh cap nhat
-	int ordinal = 0;
+	int trinhTu = 0;
 	bool isSave = false;
 	bool isEscape = false;
-
 	// chieu dai bang nhap
 	int nngang = (int)keyBangNhapDG[0].length();
-
 	// cac bien luu tru tam thoi
 	string ho = "";
 	string ten = "";
 	int phai = 3, ttthe = 3;
 	int MADG;
-
 	gotoxy(x_Note, y_Note);
 	cout << "Luu y:";
 	ve_BangNhap(x_DG[5] + 7, y_Ve, nngang, keyBangNhapDG, 12);
-	ve_BangChiBao(x_DG[5] + 7, y_Ve + 20, nngang, keyGuide1, 6);
 
 	if (isEdited) {
 		ho = dg.ho;
@@ -278,41 +269,33 @@ void capNhat_DG(TreeTDG &t, TDG &dg, bool isEdited) {
 		MADG = randomMaDG(t);
 		cout << MADG;
 	}
-
 	while (true) {
-
-		switch (ordinal) {
+		switch (trinhTu) {
 		case 0:
 			gotoxy((x_DG[5] + 7 + nngang / 2), y_Ve + 5);
-			NhapHo(ho, ordinal, isSave, isEscape);
+			NhapHo(ho, trinhTu, isSave, isEscape);
 			break;
 		case 1:
 			gotoxy((x_DG[5] + 7 + nngang / 2), y_Ve + 7);
-			NhapTen(ten, ordinal, isSave, isEscape);
+			NhapTen(ten, trinhTu, isSave, isEscape);
 			break;
 		case 2:
 			gotoxy((x_DG[5] + 7 + nngang / 2), y_Ve + 9);
-			Nhap(phai, NHAP_PHAI, ordinal, isSave, isEscape);
+			Nhap(phai, NHAP_PHAI, trinhTu, isSave, isEscape);
 			break;
 		case 3:
 			gotoxy((x_DG[5] + 7 + nngang / 2), y_Ve + 11);
-			Nhap(ttthe, NHAP_TRANG_THAI, ordinal, isSave, isEscape);
+			Nhap(ttthe, NHAP_TRANG_THAI, trinhTu, isSave, isEscape);
 			break;
 		}
-		// check Save
 		if (isSave) {
-			// cap nhat lai flag
 			isSave = false;
-
-			// check rong;
 			if (ho.length() == 0) {
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(BLUE);
 				cout << "Du lieu khong de trong ! ";
 				normalBGColor();
-
-				// quay lai va dien vao truong du lieu do
-				ordinal = 0;
+				trinhTu = 0;
 				continue;
 			}
 			else if (ten.length() == 0) {
@@ -320,9 +303,7 @@ void capNhat_DG(TreeTDG &t, TDG &dg, bool isEdited) {
 				SetColor(BLUE);
 				cout << "Du lieu khong de trong ! ";
 				normalBGColor();
-
-				// quay lai va dien vao truong du lieu do
-				ordinal = 1;
+				trinhTu = 1;
 				continue;
 			}
 			else if (phai == 3) {
@@ -330,8 +311,7 @@ void capNhat_DG(TreeTDG &t, TDG &dg, bool isEdited) {
 				SetColor(BLUE);
 				cout << "Du lieu khong de trong ! ";
 				normalBGColor();
-				// quay lai va dien vao truong du lieu do
-				ordinal = 2;
+				trinhTu = 2;
 				continue;
 			}
 			else if (ttthe == 3) {
@@ -339,18 +319,17 @@ void capNhat_DG(TreeTDG &t, TDG &dg, bool isEdited) {
 				SetColor(BLUE);
 				cout << "Du lieu khong de trong ! ";
 				normalBGColor();
-				ordinal = 3;
+				trinhTu = 3;
 				continue;
 			}
 			dg.maThe = MADG;
-			dg.ho = ChuanHoaString(ho);
-			dg.ten = ChuanHoaString(ten);
+			dg.ho = ChuanHoaChuoi(ho);
+			dg.ten = ChuanHoaChuoi(ten);
 			dg.phai = phai;
 			dg.trangThaiThe = ttthe;
 			if (isEdited) {
 				NodeTDG* p;
-				// ma doc gia khong doi
-				p = tim_DG(t, MADG);
+				p = layDG_NTDG(t, MADG);
 				p->info = dg;
 			}
 			else {
@@ -383,8 +362,8 @@ void xuat_DG_Page1(TreeTDG t, hoTen *arr, int index) {
 		return;
 	else {
 		for (int i = NUMBER_LINES * index; i < NUMBER_LINES*(1 + index) && i < nDG; i++) {
-			temp = tim_DG(t, arr[i].MADG);
-			Output_DG(temp);
+			temp = layDG_NTDG(t, arr[i].MADG);
+			xuat_DG(temp);
 		}
 	}
 }
@@ -406,16 +385,13 @@ void xuat_ListDG_1(TreeTDG t, hoTen *arr) {
 				kb_hit = _getch();
 			switch (kb_hit) {
 			case PAGE_UP:
-
 				(tttrang > 1) ? tttrang-- : tttrang = tongtrang;
 				xuat_DG_Page1(t, arr, tttrang);
 				break;
 			case PAGE_DOWN:
-
 				(tttrang < tongtrang) ? tttrang++ : tttrang = 1;
 				xuat_DG_Page1(t, arr, tttrang);
 				break;
-
 			case ESC:
 				return;
 			}
@@ -433,8 +409,8 @@ void xuat_DG_Page2(TreeTDG t, int* arr, int index) {
 	NodeTDG* temp = NULL;
 	index--;
 	for (int i = 0 + NUMBER_LINES * index; i < (NUMBER_LINES + NUMBER_LINES * index) && i < nDG; i++) {
-		temp = tim_DG(t, arr[i]);
-		Output_DG(temp);
+		temp = layDG_NTDG(t, arr[i]);
+		xuat_DG(temp);
 	}
 }
 
@@ -488,8 +464,8 @@ void xuat_DG_Page(TreeTDG t, ListTL l, int index) {
 		if (temp1 == NULL) {
 			return;
 		}
-		temp2 = tim_DG(t, temp1->tl.MADG);
-		Output_DG(temp2);
+		temp2 = layDG_NTDG(t, temp1->tl.MADG);
+		xuat_DG(temp2);
 	}
 }
 
@@ -497,11 +473,11 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 	int pos = 0;
 	int kb_hit;
 	pos = 0;
-	SetColor(LIGHT_GREEN);
+	SetColor(LIGHT_RED);
 	gotoxy(x_DG[0] + 1, y_Ve + 3 + pos);
-	cout << "<<";
+	cout << "->";
 	gotoxy(x_DG[0] + 2 + 6, y_Ve + 3 + pos);
-	cout << ">>";
+	cout << "";
 	while (true) {
 		if (_kbhit()) {
 			kb_hit = _getch();
@@ -520,9 +496,9 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 
 				// to mau muc moi
 				gotoxy(x_DG[0] + 1, y_Ve + 3 + pos);
-				cout << "<<";
+				cout << "->";
 				gotoxy(x_DG[0] + 2 + 6, y_Ve + 3 + pos);
-				cout << ">>";
+				cout << "";
 				break;
 
 			case KEY_DOWN:
@@ -536,9 +512,9 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 
 				// to mau muc moi
 				gotoxy(x_DG[0] + 1, y_Ve + 3 + pos);
-				cout << "<<";
+				cout << "->";
 				gotoxy(x_DG[0] + 2 + 6, y_Ve + 3 + pos);
-				cout << ">>";
+				cout << "";
 				break;
 
 			case PAGE_UP:
@@ -549,14 +525,12 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 					tttrang = tongtrang;
 				}
 				xuat_DG_Page(t, l, tttrang);
-
-				// high light hang dau.
 				pos = 0;
-				SetColor(LIGHT_GREEN);
+				SetColor(LIGHT_RED);
 				gotoxy(x_DG[0] + 1, y_Ve + 3 + pos);
-				cout << "<<";
+				cout << "->";
 				gotoxy(x_DG[0] + 2 + 6, y_Ve + 3 + pos);
-				cout << ">>";
+				cout << "";
 				break;
 
 			case PAGE_DOWN:
@@ -565,14 +539,10 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 				}
 				else {
 					tttrang = 1;
-
 				}
-
 				xuat_DG_Page(t, l, tttrang);
-
-				// high light hang dau.
 				pos = 0;
-				SetColor(LIGHT_GREEN);
+				SetColor(LIGHT_RED);
 				gotoxy(x_DG[0] + 1, y_Ve + 3 + pos);
 				cout << "<<";
 				gotoxy(x_DG[0] + 2 + 6, y_Ve + 3 + pos);
@@ -580,8 +550,6 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 				break;
 
 			case ENTER:
-
-				// tra ve vi tri pos.
 				return (pos == 0 && tttrang == 1) ? pos : pos + (tttrang - 1)* NUMBER_LINES;
 			}
 		}
@@ -593,7 +561,7 @@ int chonItems(TreeTDG &t, ListTL &l, int tttrang, int tongtrang) {
 	}
 }
 
-int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &tttrang) {
+int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &thuTuTrang) {
 	NodeTL * temp1 = NULL;
 	NodeTDG* temp2 = NULL;
 	int choose;
@@ -605,7 +573,7 @@ int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &tttrang) {
 	// thu tu trang
 	int  tongtrang;
 	tongtrang = (nDG / NUMBER_LINES) + 1;
-	xuat_DG_Page(t, l, tttrang);
+	xuat_DG_Page(t, l, thuTuTrang);
 
 	int kb_hit;
 	do {
@@ -615,24 +583,22 @@ int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &tttrang) {
 				kb_hit = _getch();
 			switch (kb_hit) {
 			case PAGE_UP:
-
-				(tttrang > 1) ? tttrang-- : tttrang = tongtrang;
-				xuat_DG_Page(t, l, tttrang);
+				(thuTuTrang > 1) ? thuTuTrang-- : thuTuTrang = tongtrang;
+				xuat_DG_Page(t, l, thuTuTrang);
 				break;
 
 			case PAGE_DOWN:
-				(tttrang < tongtrang) ? tttrang++ : tttrang = 1;
-				xuat_DG_Page(t, l, tttrang);
+				(thuTuTrang < tongtrang) ? thuTuTrang++ : thuTuTrang = 1;
+				xuat_DG_Page(t, l, thuTuTrang);
 				break;
 				// them
-			case KEY_F2:
+			case F1:
 				capNhat_DG(t, dg, false);
 				xoaTempL(l);
 				return 1;
-
 				// hieu chinh
-			case  KEY_F3:
-				choose = chonItems(t, l, tttrang, tongtrang);
+			case  F2:
+				choose = chonItems(t, l, thuTuTrang, tongtrang);
 				temp1 = BSort_TempL(l, choose);
 
 				// check cac truong hop.
@@ -640,23 +606,21 @@ int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &tttrang) {
 					return 1;
 				}
 				else {
-					temp2 = tim_DG(t, temp1->tl.MADG);
+					temp2 = layDG_NTDG(t, temp1->tl.MADG);
 					capNhat_DG(t, temp2->info, true);
 					xoaTempL(l);
 					return 1;
 				}
-
 				// xoa
-			case KEY_F4:
-				choose = chonItems(t, l, tttrang, tongtrang);
+			case F3:
+				choose = chonItems(t, l, thuTuTrang, tongtrang);
 				temp1 = BSort_TempL(l, choose);
-
 				// truong hop khong chon doc gia nao.
 				if (temp1 == NULL) {
 					return 1;
 				}
 				else {
-					temp2 = tim_DG(t, temp1->tl.MADG);
+					temp2 = layDG_NTDG(t, temp1->tl.MADG);
 					if (SoSachDangMuon(temp2->listMT) > 0) {
 						gotoxy(75, 20);
 						cout << "Doc Gia da muon sach nen khong duoc phep xoa !";
@@ -680,7 +644,7 @@ int xuat_ListDG(TreeTDG &t, ListTL &l, TDG &dg, int &tttrang) {
 		}
 		ShowCur(false);
 		gotoxy(60, 1);
-		cout << "Page: " << tttrang << "/" << tongtrang;
+		cout << "Page: " << thuTuTrang << "/" << tongtrang;
 	} while (true);
 }
 
@@ -695,7 +659,7 @@ void Menu_DocGia(TreeTDG &t) {
 		cout << "Cap Nhat Doc Gia ";
 		gotoxy(3, y_HKey);
 		SetColor(WHITE);
-		cout << "ESC-Thoat, F2 - Them, F3 - Sua, F4 - Xoa, F10 - Luu, PgUP, PgDn";
+		cout << "ESC: Thoat, F1: Them, F2: Sua, F3: Xoa, F5: Luu, PageUp, PageDn";
 		normalBGColor();
 		TDG dg;
 		int index = 0;
@@ -716,7 +680,7 @@ void InDG(TreeTDG t) {
 	int chosen = 0;
 	while (c != ESC) {
 		clrscr();
-		SetColor(BRIGHT_WHITE);
+		SetColor(WHITE);
 		gotoxy(x_DGIA, y_DGIA);
 		cout << " 1. Theo thu tu Ten Ho tang dan ";
 		gotoxy(x_DGIA, y_DGIA + 2);
@@ -759,7 +723,7 @@ void InDG(TreeTDG t) {
 			// su dung cap phat dong.
 			int* arrMADG = new int[nDG];
 			ve_DG(keyDisplayDG, 5, x_DG);
-			tao_ArrMADG(t, arrMADG);
+			tao_ArrMaThe(t, arrMADG);
 			xuat_ListDG_2(t, arrMADG);
 			// xoa vung nho
 			delete[]arrMADG;
@@ -793,14 +757,13 @@ void QSort_QuaHan(QuaHan *ArrQuaHan, int q, int r) {
 	if (i < r) QSort_QuaHan(ArrQuaHan, i, r);
 }
 
-
 void DanhSachQuaHan(TreeTDG t) {
 	system("color 0");
 	clrscr();
 	int nDG_MAX = demDG(t);
 	QuaHan *ArrQuaHan = new QuaHan[nDG_MAX];
 	int ndg = 0;
-	//Giai thuat khong de quy.
+	//khong de quy.
 	const int STACKSIZE = 500;
 	NodeTDG* Stack[STACKSIZE];
 	int sp = -1;	// Khoi tao Stack rong
@@ -819,7 +782,7 @@ void DanhSachQuaHan(TreeTDG t) {
 	}
 	QSort_QuaHan(ArrQuaHan, 0, ndg - 1);
 	string text = "Danh Sach Doc Gia Muon Qua Han ";
-	taoBox(48, 2, text, (int)text.length());
+	//taoBox(48, 2, text, (int)text.length());
 
 	gotoxy(47, 2);
 	cout << "Danh Sach DG Muon Qua Han ";
@@ -829,13 +792,15 @@ void DanhSachQuaHan(TreeTDG t) {
 	cout << "Ma doc gia";
 	gotoxy(25, 5);
 	cout << "Ho DG";
-	gotoxy(48, 5);
+	gotoxy(40, 5);
 	cout << "Ten DG";
-	gotoxy(65, 5);
+	gotoxy(55, 5);
 	cout << "Ma sach";
-	gotoxy(80, 5);
+	gotoxy(70, 5);
 	cout << "Ten sach";
-	gotoxy(100, 5);
+	gotoxy(97, 5);
+	cout << "Ngay muon";
+	gotoxy(110, 5);
 	cout << "Tong so ngay qua han";
 	normalBGColor();
 	SetColor(WHITE);
@@ -843,18 +808,28 @@ void DanhSachQuaHan(TreeTDG t) {
 	int j = 0;
 	for (int i = 0; i < ndg; i++) {
 		if (ArrQuaHan[i].songayquahan > 0) {
-			NodeTDG* p = tim_DG(t, ArrQuaHan[i].MADG);
+			NodeTDG* p = layDG_NTDG(t, ArrQuaHan[i].MADG);
 			gotoxy(12, 6 + j);
 			cout << p->info.maThe;
-			gotoxy(25, 6 + j);
+			gotoxy(23, 6 + j);
 			cout << p->info.ho;
-			gotoxy(50, 6 + j);
+			gotoxy(40, 6 + j);
 			cout << p->info.ten;
-			gotoxy(67, 6 + j);
+			gotoxy(55, 6 + j);
 			cout << p->listMT.headLMT->info.maSach;
-			gotoxy(82, 6 + j);
+			gotoxy(68, 6 + j);
 			cout << p->listMT.headLMT->info.tenSach;
-			gotoxy(108, 6 + j);
+			gotoxy(96, 6 + j);
+			cout << p->listMT.headLMT->info.ngayMuon.ngay;
+			gotoxy(98, 6 + j);
+			cout << "/";
+			gotoxy(99, 6 + j);
+			cout << p->listMT.headLMT->info.ngayMuon.thang;
+			gotoxy(101, 6 + j);
+			cout << "/";
+			gotoxy(102, 6 + j);
+			cout << p->listMT.headLMT->info.ngayMuon.nam;
+			gotoxy(120, 6 + j);
 			cout << soNgayQuaHan(p->listMT);
 			gotoxy(4, 6 + j);
 			j++;

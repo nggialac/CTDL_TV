@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Marcro.h"
+#include "DefineVar.h"
 using std::string;
 
 struct TenHo {
@@ -28,6 +28,6 @@ typedef struct ListTempList ListTL;
 void taoTempL(ListTL &l);
 NodeTL* GetNodeTempL(int index, int MADG);
 void themCuoiListTL(ListTL &l, int index, int MADG);
-NodeTL* getMid(NodeTL * start, NodeTL * last);
+NodeTL* getMid(NodeTL *start, NodeTL *end);
 NodeTL* BSort_TempL(ListTL l, int index);
 void xoaTempL(ListTL &l);

@@ -3,8 +3,8 @@
 string keyMainMenu[5] = { "", "QUAN LY DAU SACH", "QUAN LY DOC GIA ", "QUAN LY SACH", "THOAT" };
 
 string keySubMainMenu3[3] = { "       TRA SACH       ",
-							  " SACH MUON NHIEU NHAT ",
-							  "       MUON SACH      "
+							  "       MUON SACH      ",
+							  " SACH MUON NHIEU NHAT "
 };
 
 string keySubMainMenu2[3] = { "    CAP NHAT DOC GIA     ",
@@ -19,7 +19,7 @@ string keySubMainMenu1[3] = { "   CAP NHAT DAU SACH   ",
 };
 
 
-string keyBangNhapDauSach[14] = { "               Cap Nhat Dau Sach               ",
+string key_NhapDS[14] = { "               Cap Nhat Dau Sach               ",
 									"                                                   ",
 									" Ten Sach     :",
 									"                                                   ",
@@ -32,7 +32,7 @@ string keyBangNhapDauSach[14] = { "               Cap Nhat Dau Sach             
 									" So Trang     :",
 									"                                                   ",
 									" Nam Xuat Ban :",
-									"                                                   "
+									"                                                   ",	
 };
 
 
@@ -72,31 +72,6 @@ string keyDisplayMT[7] = { "          Ten Sach", "Ma Sach", "   Ngay Muon", "   
 
 string keyDisplayTop10[3] = { "   So Thu Tu", "          Ten Sach", " So Luot Muon Sach Thuoc Dau Sach" };
 
-string keyGuide1[6] = { "                       NOTE                         ",
-						" Ma Doc Gia    : Ngau nhien    ",
-						" Ho Doc Gia    : Toi da 16 ky tu   ",
-						" Ten Doc Gia   : Toi da 7 ky tu    ",
-						" Phai          : 0 =  NAM, 1 = NU.                       ",
-						" Trang Thai The: 0 = The bi khoa, 1 = The dang hoat dong. "
-};
-
-string keyGuide2[7] = { "                     NOTE                    ",
-						" Ten Sach     : Toi da 24 ky tu ",
-						" ISBN         : Toi da 6 ky tu chu ",
-						" Tac Gia      : Toi da 17 ky tu " ,
-						" The Loai     : Toi da 11 ky tu " ,
-						" So Trang     : So trang khong qua 999999         " ,
-						" Nam Xuat Ban : Nam XB <= nam hien tai "
-};
-
-
-string keyGuide3[4] = { "                         NOTE                             ",
-						" Ma Sach  :  Danh tu dong                           ",
-						" TTrang   :0  = cho muon duoc, 1 = da duoc muon, 2 = da thanh ly",
-						" Vi Tri   : Toi da 17 ky tu (so, chu va ',')   "
-};
-
-
 
 int x_DG[6] = { 3,13, 32,43,53,65 };
 int x_DS[7] = { 1, 29, 36, 55, 67, 74 , 80 };
@@ -112,10 +87,8 @@ int y_SMainMenus3[3] = { 16, 19, 22 };
 void taoBox(int x, int y, string text, int length) {
 	gotoxy(x - 2, y - 1);
 	cout << char(218) << setw(length) << setfill(char(196)) << char(196) << char(191);
-
 	gotoxy(x - 2, y);
 	cout << char(179) << text << setw(length - text.length() + 1) << setfill(' ') << char(179);
-
 	gotoxy(x - 2, y + 1);
 	cout << char(192) << setw(length) << setfill(char(196)) << char(196) << char(217);
 }
@@ -123,24 +96,8 @@ void taoBox(int x, int y, string text, int length) {
 void VeHinhBangNhap(int x, int y, int dorong, string str) {
 	SetBGColor(WHITE);
 	SetColor(BLACK);
-	dorong -= 3;
-	gotoxy(x, y - 1);
-	cout << setw(dorong) << setfill(' ') << " ";
-	gotoxy(x, y );
-	cout << setw(dorong) << setfill(' ') << " ";
-	gotoxy(x, y + 1);
-	cout << setw(dorong) << setfill(' ') << " ";
-	gotoxy(x + (int)str.length()/ 3, y + 1);
-	cout << setw((int)str.length() / 3  + 3) << setfill('=') << "=";
-
 	gotoxy(x, y );
 	cout << str;
-	gotoxy(x, y + 2);
-	cout << setw(4) << setfill(' ') << " ";
-	gotoxy(x + dorong - 4, y + 2);
-	cout << setw(4) << setfill(' ') << " ";
-	gotoxy(x, y + 3);
-	cout << setw(dorong) << setfill(' ') << " ";
 	normalBGColor();
 }
 
@@ -293,7 +250,6 @@ int chonMainMenu(int nKey) {
 		}
 	}
 }
-
 
 int ChonSMenu(string key[], int xSubMenu, int ykey[], int nkey) {
 	int currposSubMainMenu = 0;
@@ -451,7 +407,6 @@ void ve_DMS(string key[], int nKey, int xDisplay[]) {
 	for (int j = y_Ve; j <= y_Ve + 32; j++) {
 		for (int i = 0; i < nKey + 1; i++) {
 			gotoxy(xDisplay[i], j);
-
 			cout << char(179);
 		}
 	}
@@ -554,7 +509,6 @@ void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc) {
 		gotoxy(xDisplay[i] + 1, y_VeTop10 );
 		cout << key[i];
 	}
-
 	//hien thi cot hai ben
 	SetColor(WHITE);
 	for (int j = y_VeTop10; j <= y_VeTop10 + ndoc; j++) {
@@ -563,7 +517,6 @@ void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc) {
 			cout << char(179);
 		}
 	}
-
 	//hien thi dong hai ben
 	for (int i = xDisplay[0]; i <= xDisplay[nKey]; i++) {
 		gotoxy(i, y_VeTop10 - 1);
@@ -598,7 +551,6 @@ void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc) {
 		else {
 			cout << char(196); //duong thang ngang
 		}
-
 	}
 }
 
@@ -609,14 +561,10 @@ void ve_BangNhap(int x, int y, int nngang, string key[], int nkey) {
 	for (i = 0; i < nkey + 2; i++) {
 		gotoxy(x, y + i);
 		if (i == 0) {
-			cout << char(218) << setw(nngang) << setfill(char(196)) << char(191);
-		} else if (i == nkey + 1) {
-			cout << char(192) << setw(nngang) << setfill(char(196)) << char(217);
+			cout << " ";
 		} else {
-			cout << char(245);
 			cout << key[i - 1];
 			gotoxy(x + nngang, y + i);
-			cout << char(245);
 		}
 	}
 	normalBGColor();

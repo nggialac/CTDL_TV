@@ -102,6 +102,7 @@ int soNgayQuaHan(ListMT lMT) {
 }
 
 
+
 void xuat_MT(NodeMT * p, int i) {
 	gotoxy(x_MT[0] + 2, 21 + i);
 	cout << p->info.tenSach;

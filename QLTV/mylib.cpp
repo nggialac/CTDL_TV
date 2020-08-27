@@ -132,10 +132,17 @@ char getCursorChar()    /// Function which returns character on console's cursor
 	return c;
 }
 
-
-char readChar(int x, int y)  /// Function which reads character at specific coordinates
-{
+char readChar(int x, int y) {
 	gotoxy(x, y);
 	char ccccc = getCursorChar();
 	return ccccc;
+}
+
+void setFontSize(int FontSize) {
+	CONSOLE_FONT_INFOEX info = { 0 };
+	info.cbSize = sizeof(info);
+	info.dwFontSize.Y = FontSize; // leave X as zero
+	info.FontWeight = FW_NORMAL;
+	wcscpy_s(info.FaceName, L"Lucida Console");
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }

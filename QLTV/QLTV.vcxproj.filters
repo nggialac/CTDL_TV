@@ -42,16 +42,13 @@
     <ClInclude Include="XuLyInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XuLySaveLoad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XuLyTam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalVariable.h">
+    <ClInclude Include="DefineVar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Marcro.h">
+    <ClInclude Include="XuLySL_MT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,34 +74,30 @@
     <ClCompile Include="XuLyInput.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="XuLySaveLoad.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="XuLyTam.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalVariable.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="mylib.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Temp.cpp">
+    <ClCompile Include="XuLySL_MT.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DocGia.txt" />
-    <Text Include="DauSach.txt" />
-    <Text Include="introduce.txt" />
-    <Text Include="QuanLyThuVien.txt" />
     <Text Include="DauSach1.txt">
       <Filter>Source Files</Filter>
     </Text>
     <Text Include="DocGia1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Welcome.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="TV.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

@@ -1,11 +1,9 @@
 ﻿#pragma once
 #include <Windows.h>
-#include "Marcro.h"
-//#include "GlobalVariable.h"
+#include "DefineVar.h"
 #include <string>
-
 using std::string;
-// global variable
+
 extern int toaDo;
 extern int index;
 extern int nDG;
@@ -15,7 +13,6 @@ extern string masach;
 extern string vitrisach;
 extern char dongthongbao[];
 
-// thay doi kich thuoc cua so console
 void resizeConsole(int width, int height);
 int wherex(void);
 int wherey(void);
@@ -29,3 +26,4 @@ void normalTextColor();
 void normalBGColor();
 char getCursorChar();    
 char readChar(int x, int y); 
+void setFontSize(int FontSize);

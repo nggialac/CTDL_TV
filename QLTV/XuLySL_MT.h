@@ -4,6 +4,8 @@
 #include "DauSach.h"
 #include <fstream>
 #include "DanhMucSach.h"
+#include <windows.h>
+#include <cwchar>
 
 void ManHinhChinh();
 void Save_DS(List_DauSach listDS);

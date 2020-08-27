@@ -3,8 +3,6 @@
 #include "XuLyTam.h"
 #include "Struct.h"
 #include "MuonTra.h"
-#include <string>
-//#include "GlobalVariable.h"
 #include "XuLyInput.h"
 #include "Ve_Hinh.h"
 #include "mylib.h"
@@ -20,14 +18,14 @@ int demDG(TreeTDG tree);
 bool Check_MADG(TreeTDG  t, int MADG);
 int taoRandom();
 int randomMaDG(TreeTDG t);
-NodeTDG* timMin(TreeTDG t);
-NodeTDG* tim_DG(TreeTDG t, int MADG);
+NodeTDG* layMin_NTDG(TreeTDG t);
+NodeTDG* layDG_NTDG(TreeTDG t, int MADG);
 bool checkDeleted_DG(TreeTDG &t, TDG dg);
 void Xoa_DG_line(int toaDo);
 void Xoa_DG_lineS();
-void Output_DG(NodeTDG* dg);
+void xuat_DG(NodeTDG* dg);
 string layHoTen(TDG dg);
-void tao_ArrMADG(TreeTDG t, int* arr);
+void tao_ArrMaThe(TreeTDG t, int* arr);
 void tao_ArrTenHo(TreeTDG t, hoTen* arr);
 void tao_Templist(TreeTDG t, ListTL &l, int &index);
 void Swap_TenHo(hoTen &a, hoTen &b);
@@ -45,7 +43,6 @@ int chonItems(TreeTDG &t, ListTL &l, int thuTuTrang, int tongtrang);
 void Menu_DocGia(TreeTDG &t);
 void InDG(TreeTDG t);
 
-// quick sort mang theo thu tu keyword giam dan
+// 
 void QSort_QuaHan(QuaHan *ArrQuaHan, int q, int r);
-//Duyệt cây theo thứ tự NLR (Preorder)
 void DanhSachQuaHan(TreeTDG t);
